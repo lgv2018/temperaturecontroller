@@ -1,5 +1,6 @@
 {
     "board": "arduino:avr:uno",
     "sketch": "controller.ino",
-    "port": "COM10"
+    "port": "COM10",
+    "output": "C:\\Temp\\VSCodeArduino"
 }
