@@ -63,6 +63,12 @@
 #define MODE_HEATING 1
 #define MODE_COOLING 2
 
+#define LED_STATE_ON  HIGH
+#define LED_STATE_OFF LOW
+
+#define RELAY_STATE_ON  LOW
+#define RELAY_STATE_OFF HIGH
+
 
 
 OneWire           oneWireManager(PIN_THERMOMETER);
@@ -107,30 +113,30 @@ void loop() {
 
 void startupDisplay() {
   for (int i = 0; i < 4; i++) {
-    setLEDState(HIGH, LOW);
+    setLEDState(LED_STATE_ON, LED_STATE_OFF);
     delay(FLASH_DELAY);
-    setLEDState(LOW, HIGH);
+    setLEDState(LED_STATE_OFF, LED_STATE_ON);
     delay(FLASH_DELAY);
   }
-  setLEDState(HIGH, HIGH);
+  setLEDState(LED_STATE_ON, LED_STATE_ON);
   delay(FLASH_DELAY * 4);
-  setLEDState(LOW, LOW);
+  setLEDState(LED_STATE_OFF, LED_STATE_OFF);
   delay(FLASH_DELAY * 4);
 }
 
 
 void setMode(int mode) {
   if (mode == MODE_HEATING) {
-    setRelayState(LOW, HIGH);
-    setLEDState(HIGH, LOW);
+    setRelayState(RELAY_STATE_ON, RELAY_STATE_OFF);
+    setLEDState(LED_STATE_ON, LED_STATE_OFF);
   }
   else if (mode == MODE_COOLING) {
-    setRelayState(HIGH, LOW);
-    setLEDState(LOW, HIGH);
+    setRelayState(RELAY_STATE_OFF, RELAY_STATE_ON);
+    setLEDState(LED_STATE_OFF, LED_STATE_ON);
   }
   else {
-    setRelayState(HIGH, HIGH);
-    setLEDState(LOW, LOW);
+    setRelayState(RELAY_STATE_OFF, RELAY_STATE_OFF);
+    setLEDState(LED_STATE_OFF, LED_STATE_OFF);
     mode = MODE_OFF;
   }
 
@@ -148,9 +154,9 @@ void overRunProtection() {
       limitOverRuns();
       lastOverRunMode = currentMode;
       setMode(MODE_OFF);
-      setLEDState(HIGH, HIGH);
+      setLEDState(LED_STATE_ON, LED_STATE_ON);
       delay(PROTECTION_TIME);
-      setLEDState(LOW, LOW);
+      setLEDState(LED_STATE_OFF, LED_STATE_OFF);
     }
   }
 }
@@ -167,9 +173,9 @@ void limitOverRuns() {
 
 void permanentErrorDisplay() {
   while (1) {
-    setLEDState(HIGH, HIGH);
+    setLEDState(LED_STATE_ON, LED_STATE_ON);
     delay(FLASH_DELAY);
-    setLEDState(LOW, LOW);
+    setLEDState(LED_STATE_OFF, LED_STATE_OFF);
     delay(FLASH_DELAY);
   }
 }
