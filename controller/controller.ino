@@ -23,7 +23,7 @@
 #include <Wire.h>
 #include <DallasTemperature.h>
 
-#define DEBUG
+// #define DEBUG
 
 
 // Software config
@@ -107,7 +107,9 @@ void loop() {
   else if (temperature > TARGET_TEMPERATURE + TOLERANCE / 2) setMode(MODE_COOLING);
   else                                                       setMode(MODE_OFF);
 
-  delay(POLL_INTERVAL);
+  int pollWait = POLL_INTERVAL;
+  if(currentMode == MODE_OFF) pollWait *= 5;
+  delay(pollWait);
 }
 
 
